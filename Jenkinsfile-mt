@@ -31,8 +31,11 @@ node('master'){
  
  stage('DeplotoTomcat'){
      
-     sh "cp $WORKSPACE/target/*.war /opt/apache-tomcat-9.0.16/webapps/"
- }
+sshagent(['tomcatserver']) {
+        
+        
+        sh 'ssh -o StrictHostKeyChecking=no target/*.war ec2-user@13.233.193.233:/opt/apache-tomcat9.0.20/webapps 
+        }
  
  stage('EmailNotification'){
     mail bcc: '', body: '''Build Done
